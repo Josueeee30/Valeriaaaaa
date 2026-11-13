@@ -1,0 +1,167 @@
+:root {
+  --azul: #33519E;
+  --oscuro: #1a2e63;
+  --claro: #5573c4;
+  --rosa: #ffb7c5;
+  --texto: #3a4160;
+  --corazon: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 21.3S2.6 15.6 2.6 8.9C2.6 5.8 5 3.6 7.8 3.6c1.7 0 3.2.8 4.2 2.2 1-1.4 2.5-2.2 4.2-2.2 2.8 0 5.2 2.200 5.200 5.300 0 6.700-9.400 12.400-9.400 12.400z'/></svg>");
+  --grano: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .25 0 0 0 0 .32 0 0 0 0 .5 0 0 0 .22 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+[hidden] { display: none !important; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: linear-gradient(135deg, var(--azul), var(--oscuro));
+  background-attachment: fixed;
+  font-family: "Poppins", sans-serif;
+  color: var(--texto);
+  overflow-x: hidden;
+}
+body.bloqueado { overflow: hidden; }
+h1, h2, h3 { font-family: "Dancing Script", cursive; margin: 0; }
+
+/* Corazones que caen */
+.petalos { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+#lluvia { position: fixed; z-index: 60; }
+.petalo {
+  position: absolute; top: 0; opacity: 0;
+  /* corazón brillante: blanco arriba a la izquierda, tono azul en el resto */
+  background: radial-gradient(circle at 30% 25%, #fff 0%, currentColor 70%);
+  -webkit-mask: var(--corazon) center / contain no-repeat;
+  mask: var(--corazon) center / contain no-repeat;
+  animation: cae linear infinite;
+  will-change: transform;
+}
+@keyframes cae {
+  0% { transform: translate(0, -10vh) rotate(0); opacity: 0; }
+  12%, 85% { opacity: var(--op, .7); }
+  100% { transform: translate(var(--dx, 60px), 110vh) rotate(var(--giro, 300deg)); opacity: 0; }
+}
+
+/* ---------- Sobre ---------- */
+#overlay {
+  position: fixed; inset: 0; z-index: 100;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3.2rem;
+  background: var(--azul);
+  transition: opacity 1s ease-out;
+}
+#overlay.sale { opacity: 0; pointer-events: none; }
+
+.sobre {
+  position: relative; z-index: 2;
+  width: min(80vw, 300px); aspect-ratio: 3 / 2;
+  border: 0; padding: 0; background: none; cursor: pointer;
+  perspective: 900px;
+  filter: drop-shadow(0 14px 18px rgba(0, 0, 0, .35));
+  transition: transform .3s;
+}
+.sobre:hover:not(:disabled) { transform: scale(1.05); }
+.sobre:disabled { cursor: default; }
+.sobre:focus-visible { outline: 3px solid #fff; outline-offset: 8px; }
+.atras, .hoja, .frente, .solapa, .sello { position: absolute; }
+.atras { inset: 0; z-index: 1; background-color: #dfe3ee; background-image: var(--grano); }
+.hoja {
+  inset: 6% 7%; z-index: 2;
+  display: grid; justify-items: center; align-content: start; padding-top: .9rem;
+  background-color: #fff; background-image: var(--grano);
+  font-family: "Dancing Script", cursive; font-size: 1.5rem; color: var(--azul);
+  transition: transform .8s ease .6s;
+}
+.frente {
+  inset: 0; z-index: 3;
+  background-color: #fff;
+  background-image: linear-gradient(to right, transparent 50%, rgba(51, 81, 158, .07) 50%), var(--grano);
+  clip-path: polygon(0 0, 50% 58%, 100% 0, 100% 100%, 0 100%);
+}
+.solapa {
+  left: 0; right: 0; top: 0; height: 58%; z-index: 4;
+  background-color: #f4f5f9; background-image: var(--grano);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top;
+  transition: transform .6s ease .2s, z-index 0s .5s;
+}
+.sello {
+  left: 50%; top: 58%; width: 2.6rem; height: 2.6rem; margin: -1.3rem 0 0 -1.3rem; z-index: 5;
+  display: grid; place-items: center; border-radius: 50%;
+  background: var(--azul); color: #fff; font-size: 1.2rem;
+  border: 2px solid rgba(255, 255, 255, .25);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, .25);
+  transition: opacity .4s;
+}
+.sobre.abierto .solapa { transform: rotateX(180deg); z-index: 0; }
+.sobre.abierto .sello { opacity: 0; }
+.sobre.abierto .hoja { transform: translateY(-55%); z-index: 6; }
+
+.pista { z-index: 2; margin: 0; text-align: center; color: #fff; opacity: .85; animation: pulso 2s infinite; transition: opacity .4s; }
+.pista.oculta { animation: none; opacity: 0; }
+@keyframes pulso { 50% { transform: scale(1.05); opacity: 1; } }
+
+/* ---------- Música ---------- */
+#btnMusica {
+  position: fixed; top: 22px; right: 22px; z-index: 50;
+  width: 52px; height: 52px; padding: 0; border-radius: 50%; cursor: pointer;
+  display: grid; place-items: center;
+  background: #fff; color: var(--azul); border: 2px solid var(--azul); font-size: 26px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, .3);
+  transition: transform .3s;
+}
+#btnMusica:hover { transform: rotate(15deg) scale(1.1); }
+
+/* ---------- Historia ---------- */
+.hero { min-height: 60vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #fff; padding: 20px; }
+.hero h1 { font-size: clamp(2.8rem, 10vw, 4.5rem); text-shadow: 2px 2px 4px rgba(0, 0, 0, .3); }
+.subtitulo { font-weight: 300; letter-spacing: 1px; font-size: 1.15rem; }
+.flecha { font-size: 3rem; margin-top: 40px; opacity: .8; animation: rebote 2s infinite; }
+@keyframes rebote { 40% { transform: translateY(-10px); } 60% { transform: translateY(-5px); } }
+
+.intro { max-width: 700px; margin: 0 auto; padding: 60px 20px; text-align: center; color: #fff; }
+.intro h2 { font-size: clamp(2.2rem, 7vw, 3rem); margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0, 0, 0, .2); }
+.intro p { font-size: 1.2rem; font-weight: 300; line-height: 1.7; margin: 0 0 20px; }
+.icono { font-size: 4rem; color: rgba(255, 255, 255, .8); margin-bottom: 16px; animation: flota 3s ease-in-out infinite; }
+@keyframes flota { 50% { transform: translateY(-10px); } }
+
+
+/* ---------- Pregunta final ---------- */
+.final { min-height: 80vh; display: flex; justify-content: center; align-items: center; padding: 40px 20px 80px; }
+.caja {
+  width: 100%; max-width: 520px; margin: 0 auto; padding: 40px 32px; text-align: center;
+  background-color: #fff; background-image: var(--grano);
+  border: 2px solid var(--azul); border-radius: 20px; box-shadow: 0 15px 40px rgba(0, 0, 0, .4);
+}
+.caja h2 { color: var(--azul); font-size: 2.4rem; margin-bottom: 14px; }
+.razones { display: grid; gap: 14px; margin: 28px 0; }
+.razon { display: flex; align-items: center; gap: 12px; padding: 14px 16px; text-align: left; background: #fff; border: 2px solid var(--azul); border-radius: 14px; }
+.razon i { flex: none; font-size: 1.6rem; color: var(--azul); }
+.razon p { margin: 0; line-height: 1.4; }
+.texto-pregunta { font-family: "Dancing Script", cursive; font-weight: 700; font-size: 2.2rem; line-height: 1.2; color: var(--azul); margin: 28px 0 22px; }
+
+.botones { --k: 1; container-type: inline-size; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 18px; }
+.btn { font-family: "Poppins", sans-serif; font-weight: 600; border: 0; border-radius: 999px; cursor: pointer; color: #fff; }
+.btn:focus-visible { outline: 3px solid var(--oscuro); outline-offset: 3px; }
+.btn.si {
+  font-size: min(calc(1.1rem * var(--k)), 26cqi);
+  padding: .6em 1.3em;
+  background: var(--azul);
+  box-shadow: 0 4px 15px rgba(51, 81, 158, .4);
+  transition: font-size .4s cubic-bezier(.3, 1.5, .5, 1), background .3s;
+}
+.btn.si:hover { background: var(--oscuro); }
+.btn.no { font-size: 1.05rem; padding: .8em 1.6em; background: #dc3545; box-shadow: 0 4px 15px rgba(220, 53, 69, .3); }
+
+/* Aparición al hacer scroll */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
+.reveal.visible { opacity: 1; transform: none; }
+
+/* Solo se activa si CONFIG.respetarMovimientoReducido es true y el sistema lo pide */
+html.sin-movimiento *, html.sin-movimiento *::before, html.sin-movimiento *::after {
+  transition-duration: .01ms !important; transition-delay: 0s !important;
+}
+html.sin-movimiento .petalo { display: none; }
+html.sin-movimiento .flecha, html.sin-movimiento .icono, html.sin-movimiento .pista { animation: none !important; }
+
+@media (max-width: 420px) {
+  .caja { padding: 28px 18px; }
+  .caja h2 { font-size: 2rem; }
+  .texto-pregunta { font-size: 1.9rem; }
+}

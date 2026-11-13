@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Valeria 💙</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="corazon.css">
+</head>
+<body class="bloqueado">
+
+  <!-- Pantalla del sobre -->
+  <div id="overlay">
+    <div class="petalos" id="petalos" aria-hidden="true"></div>
+    <button class="sobre" id="sobre" aria-label="Abrir la carta">
+      <span class="atras"></span>
+      <span class="hoja">Para: Valeria <span class="Valeria"></span> 💙</span>
+      <span class="frente"></span>
+      <span class="solapa"></span>
+      <span class="sello"><i class="bx bxs-heart"></i></span>
+    </button>
+    <p class="pista" id="pista">Tienes una carta corazoncito...<br>(Haz clic para abrir)</p>
+  </div>
+
+  <audio id="musica" loop src="musica.mp3"></audio>
+  <button id="btnMusica" aria-label="Música"><i class="bx bx-music"></i></button>
+  <div class="petalos" id="lluvia" aria-hidden="true"></div>
+
+  <header class="hero">
+    <h1>Algo para ti...</h1>
+    <p class="subtitulo">Veo que abriste la carta y tengo una pequeña pregunta que quiero decirte.</p>
+    <i class="bx bx-chevron-down-circle flecha"></i>
+  </header>
+
+  <!-- EDITA: el texto de presentación -->
+  <section class="intro reveal">
+    <i class="bx bxs-calendar-heart icono"></i>
+    <h2>Quiero verte</h2>
+    <p>Ha pasado tanto tiempo desde que no te veo, te extraño:c</p>
+  </section>
+
+    <section class="final">
+    <div class="caja reveal">
+      <div id="pregunta">
+        <h2>Ahora si a lo que vinimos</h2>
+        <p>Tengo unas razones para lo que te preguntaré:</p>
+        <div class="razones">
+          <div class="razon"><i class="bx bxs-heart-circle"></i><p>Porque te mueres por mi.</p></div>
+          <div class="razon"><i class="bx bxs-heart-circle"></i><p>Porque te di una oportunidad.</p></div>
+          <div class="razon"><i class="bx bxs-heart-circle"></i><p>Porque preparé esta página solo para ti.</p></div>
+        </div>
+        <p class="texto-pregunta"><span class="Valeria"></span>¿Podemos vernos mas tarde?</p>
+        <div class="botones" id="botones">
+          <button class="btn si" id="btnSi">¡SÍ, claro!</button>
+          <button class="btn no" id="btnNo">Mmm, no sé</button>
+        </div>
+      </div>
+      <div id="exito" hidden>
+        <h2>¡Sabía que dirías que sí corazón de melon! </i></h2>
+        <p>Prepárate, la pasarameos muy bien.</p>
+        <p>Psdt: Me hubiera gustado poner fotos pero no tenemos jasjajsja, ya será motivo para tomarnos algunas, te quiero:)</p>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+  <script src="corazon.js"></script>
+</body>
+</html>
